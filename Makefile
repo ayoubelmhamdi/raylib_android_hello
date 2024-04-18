@@ -9,6 +9,7 @@ install:
 	adb shell am start -a android.intent.action.MAIN -n com.raylib.rGame/.NativeLoader
 
 clean:
-	rm -rf ./android/build ./build/ game.apk ./game
+	rm -rf ./build/ game.apk ./game
+	rm -rf android/build/{obj,dex,lib}
 
 .FORCE:
