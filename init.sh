@@ -39,6 +39,7 @@ mkdir -p android/build/res/{drawable-ldpi,drawable-mdpi,drawable-hdpi,drawable-x
 
 
 
+# SHOULD copy arm-v8a version of libraylib.a
 cp ${RAYLIB_PATH}/src/libraylib.a lib/arm64-v8a
 
 cp $RAYLIB_PATH/logo/raylib_36x36.png assets/icon_ldpi.png
