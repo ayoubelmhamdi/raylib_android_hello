@@ -12,4 +12,6 @@ clean:
 	rm -rf ./build/ game.apk ./game
 	rm -rf android/build/{obj,dex,lib}
 
+tags: include/raylib.h include/raymath.h
+	ctags -R --c++-kinds=+p --fields=+iaS --extras=+q --language-force=C include/*.h
 .FORCE:
