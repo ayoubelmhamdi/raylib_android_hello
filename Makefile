@@ -1,5 +1,19 @@
+DEBUG_CFLAGS=-ggdb -O0
+RELEASE_CFLAGS=-O3
+CFLAGS=-Wall -Wextra -pedantic -std=c99 -Wno-unused-variable
+INCLUDES=-I. -Iinclude -I../include
+LIBS=-lm -lglfw -ldl -lpthread ./lib/linux/libraylib.a
+
+.PHONY: game gamedebug
+
 game: src include ./lib .FORCE
-	@./build_linux.sh
+	@mkdir -p build/
+	@gcc $(CFLAGS) $(DEBUG_CFLAGS) $(INCLUDES) ./src/raylib_game.c -o ./game $(LIBS) -lX11
+
+release: src include ./lib .FORCE
+	@mkdir -p build/
+	@gcc $(CFLAGS) $(RELEASE_CFLAGS) $(INCLUDES) ./src/raylib_game.c -o ./game $(LIBS)
+
 
 game.apk: src assets .FORCE
 	@./build_android.sh
