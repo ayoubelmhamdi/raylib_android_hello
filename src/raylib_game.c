@@ -1,51 +1,42 @@
 #include "raylib.h"
 
-#define BORDER_SIZE 2
-
-#define TSODING CLITERAL(Color){0x18, 0x18, 0x18, 0xFF}
-
-void DrawGameFrame(int w, int h) {
-    ClearBackground(BLUE);
-    DrawRectangle(BORDER_SIZE, BORDER_SIZE, w - 2 * BORDER_SIZE, h - 2 * BORDER_SIZE, TSODING);
-    DrawCircle(w / 2, h / 2, w / 8, RED);
-}
-
 int main(void) {
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(0, 0, "Ayoub");
+    const int w = 800;
+    const int h = 400;
 
-    int w = GetScreenWidth()/2;
-    int h = GetScreenHeight()/2;
 
-    SetWindowSize(w, h);
-    SetWindowPosition(w / 2, h / 2);
-
+    InitWindow(w, h, "raylib [models] example - model animation");
     SetTargetFPS(60);
 
     Camera camera = {0};
     camera = (Camera){
-        .position = (Vector3){10.0f, 10.0f, 10.0f},
+        .position = (Vector3){10.0f, 0.0f, 0.0f},
         .target = (Vector3){0.0f, 0.0f, 0.0f},
-        .up = (Vector3){0.0f, 0.0f, 0.0f},
-        .fovy = 45.0f,
+        .up = (Vector3){0.0f, 1.0f, 0.0f},
+        .fovy =90.0f,
         .projection = CAMERA_PERSPECTIVE
     };
+
+
     Model model = LoadModel("raylib-5.0/examples/models/resources/models/iqm/guy.iqm");
-    Texture2D texture = LoadTexture("raylib-5.0/examples/models/resources/models/iqm/guy.png");
+    Texture2D texture = LoadTexture("raylib-5.0/examples/models/resources/models/iqm/guytex.png");
     SetMaterialTexture(&model.materials[0], MATERIAL_MAP_DIFFUSE, texture);
-    Vector3 position = {0.0f, 0.0f, 0.0f};
+
+    Vector3 model_position = {0.0f, 0.0f, 0.0f};
+    Vector3 model_rotation = {0.0f, 90.0f, 90.0f};
+    Vector3 model_scale    = {2.0f, 2.0f, 2.0f};
+    float   model_ang      = 360.0f;
 
     while (!WindowShouldClose()) {
-        w = GetScreenWidth();
-        h = GetScreenHeight();
+        UpdateCamera(&camera, CAMERA_FREE);
         BeginDrawing();
             ClearBackground(BLUE);
-            DrawRectangle(BORDER_SIZE, BORDER_SIZE, w - 2 * BORDER_SIZE, h - 2 * BORDER_SIZE, WHITE);
-            // DrawCircle(w / 2, h / 2, w / 8, RED);
             BeginMode3D(camera);
-                DrawModel(model, position, 1.0f, TSODING);
-                DrawGrid(10, 1.0f);
+                DrawModelEx(model, model_position, model_rotation, model_ang, model_scale, RED);
+                DrawGrid(5, 5.0f);
             EndMode3D();
+            DrawText("PRESS SPACE to PLAY MODEL ANIMATION", 10, 10, 20, MAROON);
+            DrawText("(c) Guy IQM 3D model by @culacant", w - 200, h - 20, 10, RED);
         EndDrawing();
     }
 
